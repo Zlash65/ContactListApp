@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="AppCtrl">
+<head>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+	<script src="angular.min.js"></script>
+	<script src="controllers/controller.js"></script>
+	<title> Contact List App </title>
+
+</head>
+<body>
+
+	<div class="container">
+		
+		<h1> Contact List App </h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th> Name </th>
+					<th> Email </th>
+					<th> Number </th>
+					<th> Action </th>
+					<th> &nbsp; </th>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr>
+					<td> <input class="form-control" ng-model="contact.name"></td>		
+					<td> <input class="form-control" ng-model="contact.email"></td>
+					<td> <input class="form-control" ng-model="contact.number"></td>
+					<td> <button class="btn btn-primary" ng-click="addContact()"> Add Contact </button></td>
+					<td> <button class="btn btn-info" ng-click="update()"> Update </button></td>		
+				</tr>
+				
+				<tr ng-repeat="x in contactlist">
+					<td> {{ x.name }}</td>
+					<td> {{ x.email }}</td>
+					<td> {{ x.number }}</td>
+					<td> <button class="btn btn-danger" ng-click="remove(x._id)"> Remove </button></td>
+					<td> <button class="btn btn-warning" ng-click="edit(x._id)"> Edit </button></td>
+				</tr>
+			
+			</tbody>
+
+
+		</table>
+		<!-- {{ 5 + 5 }} -->
+	</div>
+
+</body>
+</html>
