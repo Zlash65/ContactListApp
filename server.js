@@ -9,17 +9,17 @@ app.use(bodyParser.json());
 
 app.get('/contactlist', function(req, res){
 	// res.send("Hello World!");
-	console.log("I recieved a GET request");
+	// console.log("I recieved a GET request");
 
 	db.contactlist.find(function(err, docs){
-		console.log(docs);
+		// console.log(docs);
 		res.json(docs);
 	});
 
 });
 
 app.post('/contactlist', function(req, res) {
-	console.log(req.body);
+	// console.log(req.body);
 	db.contactlist.insert(req.body,function(err, doc){
 		res.json(doc);
 	});
@@ -27,7 +27,7 @@ app.post('/contactlist', function(req, res) {
 
 app.delete('/contactlist/:id', function(req, res){
 	var id = req.params.id;
-	console.log(id);
+	// console.log(id);
 	db.contactlist.remove({_id: mongojs.ObjectId(id)}, function(err, doc){
 		res.json(doc);
 	});
@@ -35,17 +35,17 @@ app.delete('/contactlist/:id', function(req, res){
 
 app.get('/contactlist/:id', function(req, res){
 	var id = req.params.id;
-	console.log(id);
+	// console.log(id);
 
 	db.contactlist.findOne({_id: mongojs.ObjectId(id)}, function(err, doc){
-		console.log(doc);
+		// console.log(doc);
 		res.json(doc);
 	});
 });
 
 app.put('/contactlist/:id', function(req, res){
 	var id = req.params.id;
-	console.log(req.body.name);
+	// console.log(req.body.name);
 	db.contactlist.findAndModify({query : {_id: mongojs.ObjectId(id)},
 		update : {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
 		new: true}, function(err, doc){
@@ -54,4 +54,4 @@ app.put('/contactlist/:id', function(req, res){
 });
 
 app.listen(3000);
-console.log("Serevr is running on poet 3000");
+console.log("Server is running on poet 3000");
