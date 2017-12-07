@@ -5,3 +5,5 @@ mongo database and queries it back for the display. The app gives functionality 
 on the display.
 
 I've developed it using Flask-as-server as well as Node-as-server.
+
+Detail steps on how to use each is provided in their respective folders. Feel free to experiment :)
