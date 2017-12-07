@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title> Contact List App </title>
+	<link href="static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="static/css/bootstrap-theme.min.css" rel="stylesheet">
+	<script src="static/js/angular.js"></script>
+
+	<script>
+		var myApp = angular.module('myApp', []);
+		myApp.controller('MainCtrl', ['$scope','$http', function($scope,$http){
+			
+			$scope.something = function(){
+				console.log("something");
+			};
+
+			var flag = 0;
+
+			$scope.showlist = function(){
+				$http({method: 'POST', url: '/showContact'}).then(function(response){
+					$scope.contactlist = response.data;
+				});
+			};
+			$scope.showlist();
+
+			$scope.addContact = function(){
+
+				if(flag == 1){
+					console.log("nope");
+				}
+				else{
+					$http({method: 'POST', url: '/addContact', data: {contact:$scope.contact}}).then(function(response){
+						$scope.showlist();
+						$scope.contact = "";
+					});
+					flag = 0;
+				}
+			};
+
+			$scope.deleteContact = function(id){
+				// console.log(id);
+				$http({method: 'POST', url: '/deleteContact', data: {id:id}}).then(function(response){
+					$scope.showlist();
+					console.log(response.data);
+					$scope.contact = "";
+				});
+			};
+
+			$scope.editContact = function(id){
+				flag = 1;
+				$http({method: 'POST', url: '/editContact', data: {id:id}}).then(function(response){
+					console.log(response.data);
+					$scope.contact = response.data;
+				});
+			};
+
+			$scope.updateContact = function(){
+				$http({method: 'POST', url: '/updateContact', data: {contact:$scope.contact}}).then(function(response){
+					console.log(response.data);
+					$scope.contact = "";
+					$scope.showlist();
+				});
+				flag = 0;
+			};
+			
+		}]);
+	</script>
+
+</head>
+<body ng-controller="MainCtrl">
+
+	<div class="container">
+		
+		<h1> Contact List App </h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<!-- <th> # </th> -->
+					<th> Name </th>
+					<th> Email </th>
+					<th> Number </th>
+					<th> Action </th>
+					<th> &nbsp; </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td> <input class="form-control" ng-model="contact.name"></td>		
+					<td> <input class="form-control" ng-model="contact.email"></td>
+					<td> <input class="form-control" ng-model="contact.number"></td>
+					<td> <button class="btn btn-primary" ng-click="addContact()"> Add Contact </button></td>
+					<td> <button class="btn btn-info" ng-click="updateContact()"> Update </button></td>		
+				</tr>
+				<tr ng-repeat="x in contactlist track by $index">
+					<!-- <th scope="row">{{'{{$index+1}}'}}</th> -->
+					<td> {{ '{{ x.name }}' }} </td>
+					<td> {{ '{{ x.email }}' }} </td>
+					<td> {{ '{{ x.number }}' }} </td>
+					<td> <button class="btn btn-danger" ng-click="deleteContact(x._id)"> Remove </button></td>
+					<td> <button class="btn btn-warning" ng-click="editContact(x._id)"> Edit </button></td>
+				</tr>
+			</tbody>
+
+
+		</table>
+	</div>
+
+</body>
+</html>
